@@ -1,8 +1,11 @@
 asgiref==3.8.1
 certifi==2024.7.4
 charset-normalizer==3.3.2
+crispy-tailwind==1.0.3
 Django==5.0.7
+django-crispy-forms==2.3
 django-debug-toolbar==4.4.6
+django-recaptcha==4.0.0
 idna==3.7
 psycopg2-binary==2.9.9
 python-dotenv==1.0.1
