@@ -3,6 +3,7 @@ from pathlib import Path
 from os import getenv
 from dotenv import load_dotenv
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
