@@ -4,7 +4,7 @@ from users.models import User, Profile
 
 class UserAdmin(admin.ModelAdmin):
     search_fields = ['username', 'full_name']
-    list_display = ['username', 'full_name', 'email', 'last_login', 'date_joined']
+    list_display = ['id', 'username', 'full_name', 'email', 'last_login', 'date_joined', 'is_superuser', 'is_staff',]
 
 
 class ProfileAdmin(admin.ModelAdmin):

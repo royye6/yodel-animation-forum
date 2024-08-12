@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.contrib.auth import login
 from .forms import RegisterForm, LoginForm, UserProfileUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import auth
+from users.models import User, Profile
 
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash 
@@ -15,7 +16,9 @@ def user_register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.save()
+            
             login(request, user)
             return redirect('/')
         else:
@@ -27,11 +30,18 @@ def user_register(request):
 
 def user_login(request):
     context = {'form': LoginForm}
+
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in')
+        return redirect('/')
+
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('/') 
+            messages.success(request, 'Logged in successfully')
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url) 
         else:
             messages.info(request, 'Invalid Credentials')
             return render(request, 'users/templates/users/login.html', context)
@@ -48,7 +58,41 @@ def user_logout(request):
 @login_required
 def profile(request):
     signed_in = request.user.is_authenticated
-    return render(request, 'users/templates/users/profile.html', {'signed_in': signed_in})
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        u_form = UserProfileUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('profile')
+        else:
+            messages.warning(request, 'Error updating profile')
+            context = {
+            "profile": profile,
+            "signed_in": signed_in,
+            "u_form": u_form,
+            "p_form": p_form
+            }
+            return render(request, 'users/templates/users/profile.html', context)
+        
+    else:
+        u_form = UserProfileUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+        context = {
+            "profile": profile,
+            "signed_in": signed_in,
+            "u_form": u_form,
+            "p_form": p_form
+        }
+        return render(request, 'users/templates/users/profile.html', context)
+
+
+
+    
 
 
 @login_required
