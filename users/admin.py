@@ -1,5 +1,6 @@
 from django.contrib import admin
 from users.models import User, Profile
+from content.models import Topic, Reply
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -12,5 +13,17 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display =['id', 'image', 'status', 'followers', 'following', 'posts', 'likes', 'posts_liked']
 
 
+class TopicAdmin(admin.ModelAdmin):
+    search_fields = ['user__username', 'id']
+    list_display = ['id', 'user', 'slug', 'title', 'image', 'content', 'created_at']
+
+
+class ReplyAdmin(admin.ModelAdmin):
+    search_fields = ['user__username', 'id']
+    list_display = ['id', 'topic', 'reply_image', 'content', 'created_at']
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Topic, TopicAdmin)
+admin.site.register(Reply, ReplyAdmin)

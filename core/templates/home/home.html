@@ -7,7 +7,7 @@
                 <div class="forum-intro bg-white rounded shadow-lg">
                     <div class="p-3">
                         <h1 class="forum-title text-3xl font-bold mb-2">Yodel Forum</h1>
-                        <h3 class="text-gray-600">This forum is dedicated to blank</h3>
+                        <h3 class="text-gray-600">Welcome to the Stickman Animation Forum! This community is your go-to place for everything stickman animation. <br>Whether you're a seasoned pro or just starting out, share your tips, tricks, and projects.</h3>
                         <hr class="bg-gray-300 mt-4">
                     </div>
                     <div class="p-3">
@@ -20,11 +20,58 @@
                     </div>
                 </div>
                 {% if signed_in %}
-                    <div class="flex justify-end"><button type="button" class="mt-6 shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'login' %}">Start new topic</a></button></div>
+                    <div class="flex justify-end"><button type="button" class="mt-6 shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'newtopic' %}">Start new topic</a></button></div>
                 {% else %}
                 {% endif %}
                 <div class="topics mt-6 h-content bg-white shadow-lg rounded">
                     <ol>
+                        {% for topic in topics %}
+                            {% if topic.is_pinned %}
+                                <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
+                                    <div class="w-3/4 flex flex-col justify-center">
+                                        <div class="flex space-x-2 items-center">
+                                            <a href="">
+                                            <h4 class="font-extrabold">{{ topic.title }}</h4></a>
+                                            <div><img src="/static/icons/padlock.png" alt="Padlock Icon"></div>
+                                            <div><img src="/static/icons/red_pin.png" alt="Red Pin Icon"></div>
+                                        </div>
+                                        <span class="text-sm text-gray-400">By {{ topic.user }}, {{ topic.created_at }}</span>
+                                        
+                                        
+                                    </div>
+                                    <ul class="text-sm text-gray-500 flex flex-col justify-center text-right max-sm:hidden">
+                                        <li>9 replies</li>
+                                        <li>2.1k views</li>
+                                    </ul>
+                                    <ul class="items-center flex p-2 gap-3 text-sm text-gray-500">
+                                        <li class="bg-gray-300 w-12 h-11"><a href=""></a></li>
+                                        <li class="h-content flex flex-col">
+                                            <a href="">UserFive</a>
+                                            <a href="">July 23, 2024</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
+                                    <div class="w-3/4 flex flex-col justify-center">
+                                        <a href=""><h4 class="font-extrabold">{{ topic.title }}</h4></a>
+                                        <span class="text-sm text-gray-400">By {{ topic.user }}, {{ topic.created_at }}</span>
+                                    </div>
+                                    <ul class="text-sm text-gray-500 flex flex-col justify-center text-right max-sm:hidden">
+                                        <li>9 replies</li>
+                                        <li>2.1k views</li>
+                                    </ul>
+                                    <ul class="items-center flex p-2 gap-3 text-sm text-gray-500">
+                                        <li class="bg-gray-300 w-12 h-11"><a href=""></a></li>
+                                        <li class="h-content flex flex-col">
+                                            <a href="">UserFive</a>
+                                            <a href="">July 23, 2024</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                        {% endif %}
+                        {% endfor %}
+<!--      
                         <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
                             <div class="w-3/4 flex flex-col justify-center">
                                 <h4 class="font-bold">General</h4>
@@ -41,25 +88,7 @@
                                     <a href="">July 23, 2024</a>
                                 </li>
                             </ul>
-                        </li>
-
-                        <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
-                            <div class="w-3/4 flex flex-col justify-center">
-                                <h4 class="font-bold">General</h4>
-                                <span class="text-sm text-gray-400">By user1, May 1, 2024</span>
-                            </div>
-                            <ul class="text-sm text-gray-500 flex flex-col justify-center text-right max-sm:hidden">
-                                <li>9 replies</li>
-                                <li>2.1k views</li>
-                            </ul>
-                            <ul class="items-center flex p-2 gap-3 text-sm text-gray-500">
-                                <li class="bg-gray-300 w-12 h-11"><a href=""></a></li>
-                                <li class="h-content flex flex-col">
-                                    <a href="">UserFive</a>
-                                    <a href="">July 23, 2024</a>
-                                </li>
-                            </ul>
-                        </li>
+                        </li> -->
                     </ol>
                 </div>
             </div>

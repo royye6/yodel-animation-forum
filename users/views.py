@@ -4,9 +4,8 @@ from django.contrib.auth import login
 from .forms import RegisterForm, LoginForm, UserProfileUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth
-from users.models import User, Profile
-
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from users.models import Profile
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash 
 
 
@@ -18,8 +17,8 @@ def user_register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
-            
             login(request, user)
+            messages.success(request, 'Registered successfully')
             return redirect('/')
         else:
             messages.info(request, 'Please fill in all the required fields')
@@ -52,6 +51,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     auth.logout(request)
+    messages.success(request, "Logged out successfully")
     return redirect('/')
 
 
@@ -78,7 +78,7 @@ def profile(request):
             "p_form": p_form
             }
             return render(request, 'users/templates/users/profile.html', context)
-        
+       
     else:
         u_form = UserProfileUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
@@ -89,10 +89,6 @@ def profile(request):
             "p_form": p_form
         }
         return render(request, 'users/templates/users/profile.html', context)
-
-
-
-    
 
 
 @login_required

@@ -4,10 +4,8 @@
     <section class="profile border-t border-gray-200 ">
         <div class="main-content bg-[#e8e8e8] p-5 min-h-screen"> 
             <div class="flex flex-col rounded justify-between container mx-auto w-full h-[300px] bg-[url(static/cover_image.jpg)] bg-cover">
-                <div class="flex justify-between">
-                    <div class="bg-[url(static/default.png)] h-28 w-28 bg-cover ml-4 rounded-full">
-                        <img src="{{ profile.image.url }}" alt="Profile Image">
-                    </div>
+                <div class="flex justify-between h-44">
+                    <div class="bg-[url({{ profile.image.url }})] my-8 mx-8 relative w-36 h-36 rounded-full bg-no-repeat bg-center bg-cover shadow-xl"></div>
                     <button class="flex text-white font-bold p-3 bg-slate-400 hover:bg-slate-500 h-10 items-center w-content rounded mt-3 mr-3" 
                     hx-get="{% url 'settings' %}" hx-trigger="click" hx-target="#view_profile" hx-swap="outerHTML">Account Settings</button>
                 </div>

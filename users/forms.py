@@ -14,14 +14,13 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2', 'captcha']
 
 
-
-
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise ValueError('Email already exists')
         return email
     
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
@@ -46,12 +45,7 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['image', 'full_name', 'status']
         
-        # def save(self, commit=True):
-        #     user = self.instance.user
-        #     user.email = self.cleaned_data.get('email', user.username)
-        #     user.email = self.cleaned_data.get('email', user.email)
-        #     user.save()
-        #     profile = super().save(commit=False)
-        #     profile.save()
-        #     return profile
+        widgets = {
+            'image': FileInput(attrs={"onchange": "loadFile(event)", "class": "upload"})
+        }
           

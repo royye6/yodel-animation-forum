@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
 from django.db.models.signals import post_save
+from django.utils.text import slugify
 
 
 STATUS = {
@@ -11,9 +12,10 @@ STATUS = {
 
 
 def user_directory_path(instance, filename):
-    ext =filename.split(',,')[-1]
-    filename = "%s.%s" % (instance.user.id, filename)
-    return "user_(0)/(1)".format(instance.user.id, filename)
+    ext =filename.split('.')[-1].lower()
+    filename_without_ext = filename.split('.')[0]
+    slug = slugify(filename_without_ext)
+    return f'user_{instance.user.id}/{slug}.{ext}'
 
 
 class User(AbstractUser):
