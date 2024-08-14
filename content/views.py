@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from .models import Topic
 from .serializers import TopicSerializer
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from rest_framework import status
+from rest_framework.response import Response
 
 
 # def topic(request):
@@ -50,20 +52,26 @@ def new_topic(request):
 def topic_detail(request, slug):
     return render(request, '/')
 
+
 def topic_paginated_api(request):
     page = request.GET.get('page', 1)
-    page_size = 14
+    page_size = 5
 
-    paginator = Paginator(Topic.objects.all(), page_size)
+    pinned_topics = Topic.objects.filter(is_pinned=True)
+    pinned_serializer = TopicSerializer(pinned_topics, many=True)
+
+    paginator = Paginator(Topic.objects.filter(is_pinned=False), page_size)
     try:
         topics = paginator.page(page)
     except PageNotAnInteger:
-        messages.error(request, 'Page number is not an integer')
-        topics = paginator.page(1)
+        return Response({'error': 'Page number is not an integer'}, status=status.HTTP_400_BAD_REQUEST)
     except EmptyPage:
-        messages.error(request, 'Page out of range')
-        topics = paginator.page(paginator.num_pages)
+        return Response({'error': 'No more topics'}, status=status.HTTP_404_NOT_FOUND)
 
     serializer_class = TopicSerializer
     serializer = serializer_class(topics, many=True)
-    return JsonResponse({'topics': serializer.data, 'next': topics.next_page_number()})
+    return JsonResponse({
+        'pinned_topics': pinned_serializer.data,
+        'topics': serializer.data, 
+        'next': topics.next_page_number() if topics.has_next() else None
+        })

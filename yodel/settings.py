@@ -35,12 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'django_htmx',
     'content',
     'core',
     'users',
     'django_recaptcha',
     'crispy_forms',
     'crispy_tailwind',
+    "template_partials",
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'yodel.urls'
@@ -77,6 +80,8 @@ TEMPLATES = [
         },
     },
 ]
+
+PAGE_SIZE = 6
 
 WSGI_APPLICATION = 'yodel.wsgi.application'
 
@@ -151,3 +156,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RECAPTCHA_PUBLIC_KEY = getenv('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = getenv('RECAPTCHA_PRIVATE_KEY')
+
