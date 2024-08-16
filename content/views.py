@@ -11,6 +11,7 @@ from .serializers import TopicSerializer
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework import status
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 
 # def topic(request):
@@ -22,16 +23,20 @@ def new_topic(request):
     profile = request.user.profile if request.user.is_authenticated else None
     
     if request.user.is_staff:
-        form = StaffTopicForm(request.POST or None)
+        form = StaffTopicForm(request.POST, request.FILES)
     else:
-        form = UserTopicForm(request.POST or None)
+        form = UserTopicForm(request.POST, request.FILES)
 
     if request.method == 'POST':
-       
             if form.is_valid():
                 try:
                     topic = form.save(commit=False)
                     topic.user = request.user
+                    if 'file' in request.FILES:
+                        uploaded_file = request.FILES['image']
+                        topic.image = uploaded_file
+                    else:
+                        print("error uploading image file")
                     topic.save()
                     messages.success(request, "Topic created successfully!")
                     return redirect('/')
@@ -50,7 +55,21 @@ def new_topic(request):
 
 
 def topic_detail(request, slug):
-    return render(request, '/')
+    profile = request.user.profile if request.user.is_authenticated else None
+    topic = get_object_or_404(Topic, slug=slug)
+    image_extensions = ('.jpg', '.jpeg', '.png', '.gif')
+    video_extensions = ('.mp4', '.webm')
+    is_image = topic.file.name.endswith(image_extensions)
+    is_video = topic.file.name.endswith(video_extensions)
+
+    context = {
+        "profile": profile,
+        "signed_in": request.user.is_authenticated,
+        "topic": topic,
+        "is_image": is_image,
+        "is_video": is_video
+    }
+    return render(request, 'content/topic.html', context)
 
 
 def topic_paginated_api(request):

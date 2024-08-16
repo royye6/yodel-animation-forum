@@ -15,12 +15,12 @@ class ProfileAdmin(admin.ModelAdmin):
 
 class TopicAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'id']
-    list_display = ['id', 'user', 'slug', 'title', 'image', 'content', 'created_at']
+    list_display = ['id', 'user', 'slug', 'title', 'file', 'content', 'created_at']
 
 
 class ReplyAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'id']
-    list_display = ['id', 'topic', 'reply_image', 'content', 'created_at']
+    list_display = ['id', 'topic', 'reply_file', 'content', 'created_at']
 
 
 admin.site.register(User, UserAdmin)
