@@ -28,9 +28,9 @@
                         {% partialdef topics_partial inline=True %}               
                             {% for topic in topics_page %}
                             {% if forloop.last %}
-                            <ol hx-get="{% url 'topics_list' %}?page={{ topics_page.next_page_number }}" hx-trigger="revealed" hx-swap="afterend" hx-indicator=".htmx-indicator">
+                                <ol hx-get="{% url 'topics_list' %}?page={{ topics_page.next_page_number }}" hx-trigger="revealed" hx-swap="afterend" hx-indicator=".htmx-indicator">
                             {% else %}
-                            <ol>
+                                <ol>
                             {% endif %}      
                             {% if topic.is_pinned %}
                                     <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
@@ -54,7 +54,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                {% else %}
+                            {% else %}
                                     <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
                                         <div class="w-3/4 flex flex-col justify-center">
                                             <a href="{% url 'topic_detail' topic.slug %}"><h4 class="font-extrabold">{{ topic.title }}</h4></a>

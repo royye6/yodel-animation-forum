@@ -13,34 +13,13 @@
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <div class="mt-4 pl-3 flex justify-between">
+                        <div class="mt-4 flex justify-between">
                             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 rounded">Submit</button>
                             <span class="text-slate-400 font-bold text-sm">Max total size: 10MB</span>
                         </div>
                     </form>
                 </div>
             </div>
-            
-            <!-- {% for topic in topics %}
-                <li class="h-content p-3 flex flex-row justify-left space-x-3 border-b border-gray-100">
-                    <div class="w-3/4 flex flex-col justify-center">
-                        <h4 class="font-bold">General</h4>
-                        <span class="text-sm text-gray-400">By user1, May 1, 2024</span>
-                    </div>
-                    <ul class="text-sm text-gray-500 flex flex-col justify-center text-right max-sm:hidden">
-                        <li>9 replies</li>
-                        <li>2.1k views</li>
-                    </ul>
-                    <ul class="items-center flex p-2 gap-3 text-sm text-gray-500">
-                        <li class="bg-gray-300 w-12 h-11"><a href=""></a></li>
-                        <li class="h-content flex flex-col">
-                            <a href="">UserFive</a>
-                            <a href="">July 23, 2024</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endfor %} -->
-
         </div>
     </section>
 {% endblock %}

@@ -15,7 +15,7 @@
                         <div class="p-3">
                             <div class="flex flex-row justify-between items-center">
                                 <div class="flex space-x-2 items-center justify-center">
-                                    <div class="h-10 w-10 rounded-full bg-[url({{ topic.user.file.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                                    <div class="h-10 w-10 rounded-full bg-[url({{ topic.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                                     <div class="flex flex-col gap-1 p-1">
                                         <span class="text-sm font-bold">By {{ topic.user }}</span>
                                         <span class="text-sm text-red-900 font-bold">{{ topic.user.profile.status }}</span>
@@ -32,36 +32,32 @@
                     {% if signed_in %}
                     <div class="flex justify-end space-x-4">
                         <a href="" class="mt-8 text-slate-600 hover:text-green-600 font-bold">Start new topic</a>
-                        <button type="button" class="mt-6 shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'newtopic' %}">Reply to this topic</a></button>
+                        <button type="button" class="mt-6 shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="#reply_to_post">Reply to this topic</a></button>
                     </div>
                     {% else %}
                     {% endif %}
                     <div class="topics mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3"> 
-
                        <div class="prof space-y-3 flex flex-col items-center justify-center h-44">
                             <span class="font-bold text-xl">{{ topic.user }}</span>
-                            <div class="h-20 w-20 rounded-full bg-[url({{ topic.user.file.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                            <div class="h-20 w-20 rounded-full bg-[url({{ topic.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                             {% if topic.user.is_staff %}
                                 <span class="text-sm text-slate-500">Staff</span>
                             {% else %}
                                 <span class="text-sm text-slate-500">Member</span>
-                            {% endif %}
-                       
+                            {% endif %}                  
                        </div>
-
                        <div class="p-1 space-y-3 w-full">
                             <div>
                                 <span class="font-bold text-sm text-slate-400">Posted {{ topic.created_at }}</span>
                             </div>
                             {% if is_image %}
-                                <img src="{{ topic.file.url }}" class="mb-10 shadow-xl">   
+                                <div><img src="{{ topic.file.url }}" class="mb-10 shadow-xl"></div>   
                             {% elif is_video %}
                                 <video width="320" height="240" controls>
                                     <source src="{{ topic.file.url }}" type="video/mp4">
                                     <source src="{{ topic.file.url }}" type="video/webm">
                                 </video>                             
-                            {% else %}
-                                                             
+                            {% else %}                                                 
                             {% endif %}
                             <div class="">
                                 <p>{{ topic.content }}</p>
@@ -69,10 +65,35 @@
                             <div>
                                 <hr class="bg-slate-200 mt-10 mb-10">
                             </div>
-
                        </div>
-
                     </div>
+
+                    {% for reply in replies %}
+                    <div class="topics mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3" id="reply_to_post">
+                        {{ reply.content }}
+                    </div>
+                    {% endfor %}
+
+                    <div class="replies mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3 w-full" id="reply_to_post">
+                    {% if signed_in %}
+                        <div class="flex justify-end space-x-4 mt-6 mb-6">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ reply_form|crispy }}
+                                <div class="mt-4  flex justify-between">
+                                    <span class="text-slate-400 font-bold text-sm">Max total size: 10MB</span>
+                                    <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded">Reply</button>             
+                                </div>
+                            </form> 
+                        </div>
+                    {% else %}
+                        <div class="p-1 flex gap-5 items-center justify-center bg-red-100 w-full">
+                            <p>It seems you are interested in this topic. Sign in to reply.</p>
+                            <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-2 py-2.5 me-1 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'login' %}">Sign in</a></button>
+                        </div>
+                    {% endif %}
+                    </div>
+                    
                 </div>
 
                 <div class="rightpanel space-y-3 rounded max-md:w-full w-1/4">

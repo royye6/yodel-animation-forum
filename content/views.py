@@ -2,11 +2,11 @@ import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from users.models import Profile
-from .forms import StaffTopicForm, UserTopicForm
+from .forms import StaffTopicForm, UserTopicForm, ReplyForm
 from django.contrib import messages
 from django.db import IntegrityError
 from django.http import JsonResponse
-from .models import Topic
+from .models import Topic, Reply
 from .serializers import TopicSerializer
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework import status
@@ -26,6 +26,7 @@ def new_topic(request):
         form = StaffTopicForm(request.POST, request.FILES)
     else:
         form = UserTopicForm(request.POST, request.FILES)
+        
 
     if request.method == 'POST':
             if form.is_valid():
@@ -61,13 +62,35 @@ def topic_detail(request, slug):
     video_extensions = ('.mp4', '.webm')
     is_image = topic.file.name.endswith(image_extensions)
     is_video = topic.file.name.endswith(video_extensions)
+    reply_form = ReplyForm(request.POST, request.FILES)
+    replies = Reply.objects.filter(topic=topic)
+
+    if request.method == 'POST':
+        if reply_form.is_valid():
+            try:
+                reply = reply_form.save(commit=False)
+                reply.user = request.user
+                reply.topic_id = topic.id
+                if 'reply_file' in request.FILES:
+                    uploaded_file = request.FILES['reply_file']
+                    reply.reply_file = uploaded_file
+                reply.save()
+                messages.success(request, "Reply sent successfully!")
+            
+            except IntegrityError as e:
+                messages.error(request, "An error occurred. Please check your uploaded data")
+                print(e)
+
+    # print(replies)
 
     context = {
         "profile": profile,
         "signed_in": request.user.is_authenticated,
         "topic": topic,
         "is_image": is_image,
-        "is_video": is_video
+        "is_video": is_video,
+        "reply_form": reply_form,
+        "replies": replies
     }
     return render(request, 'content/topic.html', context)
 

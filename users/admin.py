@@ -20,7 +20,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 class ReplyAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'id']
-    list_display = ['id', 'topic', 'reply_file', 'content', 'created_at']
+    list_display = ['id', 'user', 'topic', 'reply_file', 'content', 'created_at']
 
 
 admin.site.register(User, UserAdmin)

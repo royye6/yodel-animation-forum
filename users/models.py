@@ -28,7 +28,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.FileField(default='default.png', upload_to=user_directory_path, null=True, blank=True)
     full_name = models.CharField(max_length=300, null=True, blank=True)
-    status = models.CharField(choices=STATUS, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS, null=True, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
     posts = models.IntegerField(default=0)
