@@ -2,13 +2,12 @@
 {% block title %}New Topic{% endblock %}
 {% load tailwind_filters %}
 {% block content %}
-    <section class="profile border-t border-gray-200 ">
-        <div class="new-topic bg-[#e8e8e8] p-5 h-content">
+    <section class="border-t border-gray-200 ">
+        <div class="bg-[#e8e8e8] p-5 h-content">
             <div class="container mx-auto bg-white md:w-3/4 rounded">
                 <div class="h-12 bg-red-600 font-bold rounded-t flex flex-col justify-end pl-3 mb-2">
                     <div class=" flex items-center justify-center bg-white rounded-t w-20 h-3/4"><span>Content</span></div>
-                </div>
-                    
+                </div>                  
                 <div class="p-3">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}

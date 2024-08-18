@@ -1,15 +1,15 @@
 {% extends 'templates/base.html' %}
 {% block title %}New Topic{% endblock %}
 {% load tailwind_filters %}
+{% load crispy_forms_tags %}
 {% block content %}
-    <section class="profile border-t border-gray-200 ">
-        <div class="mc bg-[#e8e8e8] p-5 max-md:p-1 h-content">
-            <div class="container mx-auto bg-[#e8e8e8] p-5 flex gap-5 max-md:flex-col max-md:p-0 mt-3">
-                
+    <section class="border-t border-gray-200 ">
+        <div class="bg-[#e8e8e8] p-5 max-md:p-1 h-content">
+            <div class="container mx-auto bg-[#e8e8e8] p-5 flex gap-5 max-md:flex-col max-md:p-0 mt-3">        
                 <div class="leftpanel w-3/4 max-md:w-full bg-[#e8e8e8]">
-                    <div class="post-intro bg-white rounded shadow-lg">
+                    <div class="bg-white rounded shadow-lg">
                         <div class="p-3">
-                            <h1 class="forum-title text-3xl max-md:text-2xl font-bold mb-2">{{ topic.title }}</h1>
+                            <h1 class="text-3xl max-md:text-2xl font-bold mb-2">{{ topic.title }}</h1>
                             <hr class="bg-gray-300 mt-4">
                         </div>
                         <div class="p-3">
@@ -18,7 +18,10 @@
                                     <div class="h-10 w-10 rounded-full bg-[url({{ topic.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                                     <div class="flex flex-col gap-1 p-1">
                                         <span class="text-sm font-bold">By {{ topic.user }}</span>
-                                        <span class="text-sm text-red-900 font-bold">{{ topic.user.profile.status }}</span>
+                                        {% if topic.user.profile.status %}
+                                            <span class="text-sm text-red-900 font-bold">{{ topic.user.profile.status }}</span>
+                                        {% else %}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="flex bg-blue-100 gap-4 p-2 rounded justify-center items-center">
@@ -28,16 +31,15 @@
                             </div>
                         </div>
                     </div>
-
                     {% if signed_in %}
                     <div class="flex justify-end space-x-4">
-                        <a href="" class="mt-8 text-slate-600 hover:text-green-600 font-bold">Start new topic</a>
-                        <button type="button" class="mt-6 shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="#reply_to_post">Reply to this topic</a></button>
+                        <a href="{% url 'newtopic' %}" class="mt-8 text-slate-600 hover:text-green-600 font-bold">Start new topic</a>
+                        <a href="#reply_to_post"><button type="button" class="mt-6 shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded">Reply to this topic</button></a>
                     </div>
                     {% else %}
                     {% endif %}
-                    <div class="topics mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3"> 
-                       <div class="prof space-y-3 flex flex-col items-center justify-center h-44">
+                    <div class="mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3"> 
+                       <div class="space-y-3 flex flex-col items-center justify-center h-44">
                             <span class="font-bold text-xl">{{ topic.user }}</span>
                             <div class="h-20 w-20 rounded-full bg-[url({{ topic.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                             {% if topic.user.is_staff %}
@@ -50,16 +52,18 @@
                             <div>
                                 <span class="font-bold text-sm text-slate-400">Posted {{ topic.created_at }}</span>
                             </div>
-                            {% if is_image %}
-                                <div><img src="{{ topic.file.url }}" class="mb-10 shadow-xl"></div>   
-                            {% elif is_video %}
-                                <video width="320" height="240" controls>
-                                    <source src="{{ topic.file.url }}" type="video/mp4">
-                                    <source src="{{ topic.file.url }}" type="video/webm">
-                                </video>                             
-                            {% else %}                                                 
-                            {% endif %}
-                            <div class="">
+                            <div class="flex items-center justify-center">
+                                {% if is_image %}
+                                    <div><img src="{{ topic.file.url }}" class="mb-10 shadow-xl"></div>   
+                                {% elif is_video %}
+                                    <video width="320" height="240" controls>
+                                        <source src="{{ topic.file.url }}" type="video/mp4">
+                                        <source src="{{ topic.file.url }}" type="video/webm">
+                                    </video>                             
+                                {% else %}                                                 
+                                {% endif %}
+                            </div>
+                            <div>
                                 <p>{{ topic.content }}</p>
                             </div>
                             <div>
@@ -67,20 +71,50 @@
                             </div>
                        </div>
                     </div>
-
                     {% for reply in replies %}
-                    <div class="topics mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3" id="reply_to_post">
-                        {{ reply.content }}
-                    </div>
+                    <div class="mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3"> 
+                        <div class="space-y-3 flex flex-col items-center justify-center h-44">
+                             <span class="font-bold text-xl">{{ reply.user }}</span>
+                             <div class="h-20 w-20 rounded-full bg-[url({{ reply.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                             {% if reply.user.is_staff %}
+                                 <span class="text-sm text-slate-500">Staff</span>
+                             {% else %}
+                                 <span class="text-sm text-slate-500">Member</span>
+                             {% endif %}                  
+                        </div>
+                        <div class="p-1 space-y-3 w-full">
+                             <div>
+                                 <span class="font-bold text-sm text-slate-400">Posted {{ topic.created_at }}</span>
+                             </div>
+                             <div class="flex items-center justify-center">
+                                {% if reply.reply_file %}
+                                    {% if is_image %}
+                                        <div><img src="{{ reply.reply_file.url }}" class="mb-10 shadow-xl"></div>   
+                                    {% elif is_video %}
+                                        <video width="320" height="240" controls>
+                                            <source src="{{ reply.reply_file.url }}" type="video/mp4">
+                                            <source src="{{ reply.reply_file.url }}" type="video/webm">
+                                        </video>                             
+                                    {% else %}                                                 
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                             <div class="">
+                                 <p>{{ reply.content }}</p>
+                             </div>
+                             <div>
+                                 <hr class="bg-slate-200 mt-10 mb-10">
+                             </div>
+                        </div>
+                     </div>
                     {% endfor %}
-
-                    <div class="replies mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3 w-full" id="reply_to_post">
+                    <div class="mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3 w-full" id="reply_to_post">
                     {% if signed_in %}
-                        <div class="flex justify-end space-x-4 mt-6 mb-6">
-                            <form method="POST" enctype="multipart/form-data">
+                        <div class="flex space-x-4 mt-6 mb-6 w-full">
+                            <form method="POST" enctype="multipart/form-data" class="w-full">
                                 {% csrf_token %}
                                 {{ reply_form|crispy }}
-                                <div class="mt-4  flex justify-between">
+                                <div class="mt-4 flex justify-between">
                                     <span class="text-slate-400 font-bold text-sm">Max total size: 10MB</span>
                                     <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded">Reply</button>             
                                 </div>
@@ -92,57 +126,50 @@
                             <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-2 py-2.5 me-1 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'login' %}">Sign in</a></button>
                         </div>
                     {% endif %}
-                    </div>
-                    
+                    </div>               
                 </div>
-
                 <div class="rightpanel space-y-3 rounded max-md:w-full w-1/4">
-                    <div class="memberstats bg-white rounded shadow-xl">
+                    <div class="bg-white rounded shadow-xl">
                         <div class="h-12 bg-red-700 rounded-t flex items-center justify-center font-bold">
                             <span>Member Statistics</span>
                         </div>
                         <div class="flex flex-col gap-5">
                             <div class="p-4 flex justify-between items-center">
                                 <span class="text-sm font-bold">Total Members</span>
-                                <span>25</span>
+                                <span>{{ total_members }}</span>
                             </div>
                             <div class="p-4 flex justify-between items-center border-t border-slate-200">
                                 <span class="text-sm font-bold">Most Online</span>
                                 <div class="flex flex-col text-right">
-                                    <span>1432</span>
+                                    <span>142</span>
                                     <span class="text-sm font-bold text-slate-400">August 13, 2024</span>
                                 </div>
                             </div>
                             <div class="p-4 flex items-center space-x-3 border-slate-200 border-t">
-                                <div class="h-10 w-10 rounded-full bg-[url({{ profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                                <div class="h-10 w-10 rounded-full bg-[url({{ newest_member.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                                 <div class="flex flex-col">
                                     <span class="font-bold text-xs text-slate-500">NEWEST MEMBER</span>
-                                    <span class="font-bold text-sm text-slate-400">{{ user.username }}</span>
+                                    <span class="font-bold text-sm text-slate-400">{{ newest_member.username }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="forumstats rounded bg-white rounded shadow-xl"">
+                    <div class="rounded bg-white rounded shadow-xl"">
                         <div class="h-12 bg-red-700 rounded-t flex items-center justify-center font-bold">
                             <span>Forum Statistics</span>
                         </div>
                         <div>
                             <div class="p-4 flex justify-between items-center ">
                                 <span class="text-sm font-bold">Total Topics</span>
-                                <span>25</span>
+                                <span>{{ total_topics }}</span>
                             </div>
-
                             <div class="p-4 flex justify-between items-center ">
                                 <span class="text-sm font-bold">Total Posts</span>
-                                <span>45</span>
+                                <span>{{ total_posts }}</span>
                             </div>
-
                         </div>
                     </div>
                 </div>
-                
-
             </div>
         </div>
     </section>

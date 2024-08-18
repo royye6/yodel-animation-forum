@@ -29,18 +29,18 @@ def user_register(request):
 
 def user_login(request):
     context = {'form': LoginForm}
+    next_url = request.META.get('HTTP_REFERER', '/')
 
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in')
-        return redirect('/')
 
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
             messages.success(request, 'Logged in successfully')
-            next_url = request.GET.get('next', '/')
-            return redirect(next_url) 
+            # next_url = request.GET.get('next', '/')
+            return redirect('/') 
         else:
             messages.info(request, 'Invalid Credentials')
             return render(request, 'users/templates/users/login.html', context)

@@ -9,7 +9,7 @@ class StaffTopicForm(forms.ModelForm):
         fields = ['title', 'content', 'file', 'is_pinned']
 
         widgets = {
-            'image': FileInput(attrs={"onchange": "loadFile(event)", "class": "upload"})
+            'file': FileInput(attrs={"onchange": "loadFile(event)", "class": "upload"})
         }
 
 

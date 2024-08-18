@@ -1,0 +1,47 @@
+{% extends 'templates/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+    <section class="border-t border-gray-200 ">
+        <div class="bg-[#e8e8e8] p-5 h-content">
+            <div class="container mx-auto">
+                <div class="bg-white rounded shadow-lg p-3">                
+                    <h2 class="text-2xl font-bold mb-2">All Activity</h1>
+                </div>
+            </div>           
+            <div class="mt-6 h-content bg-[#e8e8e8] container mx-auto flex flex-col mb-2 item-center justify-center">     
+                {% for reply in replies %}
+                    <div class="flex mt-4 bg-white w-full h-content"> 
+                        <div class="w-5 h-max-auto bg-[#e8e8e8] flex flex-col justify-center items-center">
+                            <div><img src="/static/icons/chat_bubble.png" alt="Chat Bubble Icon"></div>
+                            <div class="h-full border-l-4 border-slate-400 rounded"></div>
+                        </div>
+                        <div class="p-3 flex space-x-4 w-full">
+                            <div class="h-10 w-10 rounded-full bg-[url({{ reply.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                            <div class="w-full flex flex-col gap-2">
+                                <div class="flex flex-col">
+                                    <a href="{% url 'topic_detail' reply.topic.slug %}"><span class="font-extrabold text-orange-700 hover:text-orange-600">{{ reply.topic.title }}</span></a>
+                                    <span class="text-slate-600">{{ reply.user.username }} replied to {{ reply.topic.user.username }}'s topic</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm my-2">{{ reply.content }}</p>
+                                </div>
+                                <div class="flex gap-5 justify-between mb-1">
+                                    <div class="flex space-x-1 w-content overflow-hidden items-center">
+                                        <div class="h-4 w-4 h-10 w-10 rounded-full bg-[url(/static/icons/clock_face.png)] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                                        <span class="text-sm text-slate-400">{{ reply.created_at }}</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex h-content flex space-x-1 items-center">
+                                            <div class="h-4 w-4 h-10 w-10 rounded-full bg-[url(/static/icons/chat_bubble_gray.png)] bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                                            <span class="text-sm text-slate-400 ">{{ reply.topic.replies.count }} replies</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
