@@ -4,6 +4,7 @@ from users.models import Profile, User
 from content.models import Topic, Reply
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.contrib import messages
 
 
 def home(request):
@@ -19,7 +20,10 @@ def home(request):
     pinned_topics = Topic.objects.filter(is_pinned=True)
     regular_topics = Topic.objects.filter(is_pinned=False).order_by('-created_at')
     all_topics = list(pinned_topics) + list(regular_topics)
-    replies = Reply.objects.order_by('-created_at').all()
+  
+    for topic in all_topics:
+        topic.latest_reply = topic.replies.order_by('-created_at').first()
+
 
     paginator = Paginator(all_topics, settings.PAGE_SIZE)
     topics_pages = paginator.page(1)
@@ -29,7 +33,6 @@ def home(request):
         "signed_in": signed_in,
         "topics": all_topics,
         "topics_page": topics_pages,
-        "replies": replies
     }
 
     if request.htmx:
@@ -53,3 +56,43 @@ def topics_list(request):
     }
     print('Pagination is working')
     return render(request, 'core/templates/home/home.html#topics_partial', context)
+
+
+def members(request):
+    profile = request.user.profile if request.user.is_authenticated else None
+    users = User.objects.order_by('-date_joined').all()
+
+    context = {
+        "profile": profile,
+        "signed_in": request.user.is_authenticated,
+        "users": users
+    }
+    return render(request, 'members/members.html', context)
+    
+
+def staff(request):
+    profile = request.user.profile if request.user.is_authenticated else None
+    users = User.objects.order_by('-date_joined').all()
+
+    context = {
+        "profile": profile,
+        "signed_in": request.user.is_authenticated,
+        "users": users
+    }
+    return render(request, 'members/staff.html', context)
+
+
+def support(request):
+    profile = request.user.profile if request.user.is_authenticated else None
+    users = User.objects.order_by('-date_joined').all()
+
+    if not request.user.is_authenticated:
+        messages.info(request, "Login to access this page")
+        return redirect('login')
+    
+    context = {
+        "profile": profile,
+        "signed_in": request.user.is_authenticated,
+        "users": users
+    }
+    return render(request, 'members/support.html', context)

@@ -40,13 +40,13 @@
                 <div class="flex flex-row">
                     <ul class="py-2 text-sm text-gray-700 flex flex-row dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Browse</a>
+                            <a href="#" class="rounded block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Browse</a>
                         </li>
                         <li>
-                            <a href="{% url 'activity' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activity</a>
+                            <a href="{% url 'activity' %}" class="rounded block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activity</a>
                         </li>
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Support</a>
+                            <a href="{% url 'support' %}" class="rounded block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Support</a>
                         </li>
                     </ul>
                 </div>
@@ -62,16 +62,16 @@
         <div class="flex flex-row">
             <ul class="py-2 text-sm text-gray-700 flex flex-row dark:text-gray-500" aria-labelledby="dropdownDefaultButton">
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Topic</a>
+                    <a href="{% url 'home' %}" class="rounded block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Topic</a>
                 </li>
                 <li>
-                    <a href="{% url 'gallery' %}" class="block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Gallery</a>
+                    <a href="{% url 'gallery' %}" class="rounded block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Gallery</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Users</a>
+                    <a href="{% url 'members' %}" class="rounded block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Users</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Staff</a>
+                    <a href="{% url 'staff' %}" class="rounded block px-4 py-2 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-white">Staff</a>
                 </li>
             </ul>
         </div>
@@ -88,5 +88,26 @@
             })
         {% endfor %}
     </script>
+
+    <footer>
+        <div class="bg-[#e8e8e8] p-5 h-72 flex flex-col items-center justify-end">
+            <div class="mb-3 flex gap-5">
+                <a href="https://github.com/"><img src="/static/icons/github.png" alt="Github Icon" class="transition-transform hover:scale-90"></a>
+                <a href="https://www.linkedin.com/"><img src="/static/icons/linkedin.png" alt="Linkedin Icon" class="transition-transform hover:scale-90"></a>
+                <a href="https://x.com/"><img src="/static/icons/x.png" alt="X Icon" class="transition-transform hover:scale-90"></a>
+                <a href="https://web.facebook.com/"><img src="/static/icons/facebook.png" alt="Facebook Icon" class="transition-transform hover:scale-90"></a>
+            </div>
+            <ul class="flex space-x-4 font-bold text-slate-400">
+                <a href="#"><li class="hover:text-red-500">Contact Us</li></a>
+                <a href="#"><li class="hover:text-red-500">Privacy Policy</li></a>
+                <a href="#"><li class="hover:text-red-500">About Us</li></a>
+                <a href="#"><li class="hover:text-red-500">Code of Conduct</li></a>
+                <a href="#"><li class="hover:text-red-500">TOS</li></a>
+            </ul>
+            <div>
+                <span class="text-[10px] text-slate-400">POWERED BY ROYYE</span>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
