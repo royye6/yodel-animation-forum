@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body class="">
+<body>
     <header class="bg-[#353c41]">
         <nav class="container mx-auto flex flex-col justify-center">
             <div class="container flex flex-row items-center justify-between  gap-5">
@@ -17,16 +17,18 @@
                 </div>
                 {% if signed_in %}
                     <div class="flex flex-row space-x-2 max-sm:p-2">
-                        <div class="text-white font-bold flex items-center pr-4 max-sm:pr-1 text-sm">
-                            <a href="{% url 'logout' %}" class="hover:text-gray-500">Sign Out</a>
+                        <div class="flex max-sm:flex-col items-center justify-center max-sm:gap-2 max-sm:border-r max-sm:border-gray-500 max-sm:pr-2">
+                            <div class="text-white font-bold flex items-center pr-4 max-sm:pr-1 text-sm border-r border-gray-500 h-8 max-sm:border-none">
+                                <a href="{% url 'logout' %}" class="hover:text-gray-500">Sign Out</a>
+                            </div>
+                            <div class="flex flex-row space-x-2 pr-2 pl-2 border-r border-gray-500 max-sm:border-none items-center">
+                                <a href="#"><img src="/static/icons/bell.png" alt="Notifications icon"></a>
+                                <a href=""><img src="/static/icons/envelope.png" alt="Messages icon"></a>
+                            </div>
                         </div>
-                        <div class="flex flex-row space-x-2 pr-2 border-r border-gray-500 items-center">
-                            <a href="#"><img src="/static/icons/bell.png" alt="Notifications icon"></a>
-                            <a href=""><img src="/static/icons/envelope.png" alt="Messages icon"></a>
-                        </div>
-                        <div class="flex flex-row space-x-3">
+                        <div class="flex flex-row space-x-3 max-sm:flex-col max-sm:gap-2 items-center justify-center">
                             <div class="rounded-full w-8 h-8 bg-[url({{ profile.image.url }})] relative bg-no-repeat bg-center bg-cover shadow-xl"></div>
-                            <div class="flex items-center text-white"><a href="{% url 'profile' %}" class="font-bold hover:text-red-600">{{ user.username }}</a></div>
+                            <div class="flex items-center text-white"><a href="{% url 'profile' %}" class="font-bold max-sm:pr-2 hover:text-red-600">{{ user.username }}</a></div>
                         </div>            
                     </div>
                 {% else %}
@@ -40,7 +42,7 @@
                 <div class="flex flex-row">
                     <ul class="py-2 text-sm text-gray-700 flex flex-row dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                         <li>
-                            <a href="#" class="rounded block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Browse</a>
+                            <a href="{% url 'home' %}" class="rounded block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Browse</a>
                         </li>
                         <li>
                             <a href="{% url 'activity' %}" class="rounded block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activity</a>
@@ -57,7 +59,6 @@
             </div>
         </nav>
     </header>
-
     <section class="main-nav-container container mx-auto">
         <div class="flex flex-row">
             <ul class="py-2 text-sm text-gray-700 flex flex-row dark:text-gray-500" aria-labelledby="dropdownDefaultButton">
@@ -77,8 +78,7 @@
         </div>
     </section>
     {% block content %}{% endblock %}
-
-    <!-- # alternative sweetify  -->
+    <!--  alternative is sweetify  -->
     <script>
         {% for message in messages %}
             swal.fire({
@@ -88,7 +88,6 @@
             })
         {% endfor %}
     </script>
-
     <footer>
         <div class="bg-[#e8e8e8] p-5 h-72 flex flex-col items-center justify-end">
             <div class="mb-3 flex gap-5">

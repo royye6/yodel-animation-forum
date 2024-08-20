@@ -42,15 +42,23 @@
                                                 </div>
                                                 <span class="text-sm text-gray-400">By {{ topic.user }}, {{ topic.created_at }}</span>
                                             </div>
-                                            <ul class="text-sm text-gray-500 flex flex-col justify-center text-right max-sm:hidden">
+                                            <ul class="text-sm text-gray-500 w-32 flex p-2 flex-col justify-center text-right max-sm:hidden">
                                                 <li>{{ topic.replies.count }} replies</li>
-                                                <li>2.1k views</li>
+                                                <li>{{ topic.replies.count }} views</li>
                                             </ul>
-                                            <ul class="items-center flex p-2 gap-3 text-sm text-gray-500">
-                                                <li class="bg-gray-300 w-12 h-11"><a href=""></a></li>
+                                            <ul class="items-center flex p-2 gap-3 text-sm text-gray-500 w-52">
+                                                <div class="h-10 w-10 rounded-full bg-[url({{ topic.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                                                 <li class="h-content flex flex-col">
-                                                    <a href="">UserFive</a>
-                                                    <a href="">July 23, 2024</a>
+                                                    <a href="">{{ topic.user }}</a>
+                                                    {% if topic.user.is_staff %}
+                                                        <span class="text-sm text-green-300">Staff</span>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% if topic.user.profile.status %}
+                                                        <span class="text-sm text-red-300">{{ topic.user.profile.status }}</span>
+                                                    {% else %}
+                                                        <span class="text-sm text-slate-300">Member</span>
+                                                    {% endif %}
                                                 </li>
                                             </ul>
                                         </li>
@@ -60,15 +68,23 @@
                                                 <a href="{% url 'topic_detail' topic.slug %}"><h4 class="font-extrabold">{{ topic.title }}</h4></a>
                                                 <span class="text-sm text-gray-400">By {{ topic.user }}, {{ topic.created_at }}</span>
                                             </div>
-                                            <ul class="text-sm text-gray-500 flex flex-col justify-center text-right max-sm:hidden">
+                                            <ul class="text-sm text-gray-500 w-32 flex p-2  flex-col justify-center text-right max-sm:hidden">
                                                 <li>{{ topic.replies.count }} replies</li>
-                                                <li>2.1k views</li>
+                                                <li>{{ topic.replies.count }} views</li>
                                             </ul>
-                                            <ul class="items-center flex p-2 gap-3 text-sm text-gray-500">
-                                                <li class="bg-gray-300 w-12 h-11"><a href=""></a></li>
+                                            <ul class="items-center flex p-2 gap-3 text-sm text-gray-500 w-52">
+                                                <div class="h-10 w-10 rounded-full bg-[url({{ topic.user.profile.image.url }})] bg-no-repeat bg-center bg-cover shadow-xl"></div>
                                                 <li class="h-content flex flex-col">
-                                                    <a href="">UserFive</a>
-                                                    <a href="">July 23, 2024</a>
+                                                    <a href="">{{ topic.user }}</a>
+                                                    {% if topic.user.is_staff %}
+                                                        <span class="text-sm text-green-300">Staff</span>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% if topic.user.profile.status %}
+                                                        <span class="text-sm text-red-300">{{ topic.user.profile.status }}</span>
+                                                    {% else %}
+                                                        <span class="text-sm text-slate-300">Member</span>
+                                                    {% endif %}
                                                 </li>
                                             </ul>
                                         </li>

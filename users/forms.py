@@ -43,7 +43,7 @@ class UserProfileUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'full_name', 'status']
+        fields = ['full_name', 'image', 'status']
         
         widgets = {
             'image': FileInput(attrs={"onchange": "loadFile(event)", "class": "upload"})

@@ -54,7 +54,7 @@
                             </div>
                             <div class="flex items-center justify-center">
                                 {% if is_image %}
-                                    <div><img src="{{ topic.file.url }}" class="mb-10 shadow-xl"></div>   
+                                    <div><img src="{{ topic.file.url }}" class="mb-10 shadow-xl rounded"></div>   
                                 {% elif is_video %}
                                     <video width="320" height="240" controls>
                                         <source src="{{ topic.file.url }}" type="video/mp4">
@@ -84,7 +84,7 @@
                         </div>
                         <div class="p-1 space-y-3 w-full">
                              <div>
-                                 <span class="font-bold text-sm text-slate-400">Posted {{ topic.created_at }}</span>
+                                 <span class="font-bold text-sm text-slate-400">Posted {{ reply.created_at }}</span>
                              </div>
                              <div class="flex items-center justify-center">
                                 {% if reply.reply_file %}
@@ -99,7 +99,7 @@
                                     {% endif %}
                                 {% endif %}
                             </div>
-                             <div class="">
+                             <div>
                                  <p>{{ reply.content }}</p>
                              </div>
                              <div>

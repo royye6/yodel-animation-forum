@@ -1,53 +1,65 @@
 {% extends 'templates/base.html' %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-    <section class="profile border-t border-gray-200 ">
-        <div class="main-content bg-[#e8e8e8] p-5 min-h-screen"> 
-            <div class="flex flex-col rounded justify-between container mx-auto w-full h-[300px] bg-[url(static/cover_image.jpg)] bg-cover">
-                <div class="flex justify-between h-44">
-                    <div class="bg-[url({{ profile.image.url }})] my-8 mx-8 relative w-36 h-36 rounded-full bg-no-repeat bg-center bg-cover shadow-xl"></div>
-                    <button class="flex text-white font-bold p-3 bg-slate-400 hover:bg-slate-500 h-10 items-center w-content rounded mt-3 mr-3" 
-                    hx-get="{% url 'settings' %}" hx-trigger="click" hx-target="#view_profile" hx-swap="outerHTML">Account Settings</button>
-                </div>
-                <div class="flex justify-end mr-10 text-4xl font-bold text-slate-400"><span>{{ user.username }}</span></div>
-                <div class="bg-[#353c41] h-16 flex items-center space-x-8 px-2 pl-8 rounded-b text-gray-500 font-bold">
-                    <div class=" flex flex-col">
-                        <span>Posts</span>
-                        <span class="text-white font-bold">0</span>
+    <section class="border-t border-gray-200 ">
+        <div class="bg-[#e8e8e8] p-5 min-h-screen"> 
+            <div class="w-3/4 mx-auto max-md:w-full">
+                <div class="shadow-lg flex flex-col rounded justify-between container mx-auto w-full h-[300px] bg-[url(static/cover_image.jpg)] bg-cover">
+                    <div class="flex justify-between h-44">
+                        <div class="bg-[url({{ profile.image.url }})] my-8 mx-8 relative w-36 h-36 rounded-full bg-no-repeat bg-center bg-cover shadow-xl"></div>
+                        <button class="flex text-white font-bold p-3 bg-blue-400 hover:bg-blue-500 h-10 items-center w-content rounded mt-3 mr-3" 
+                        hx-get="{% url 'settings' %}" hx-trigger="click" hx-target="#view_profile" hx-swap="outerHTML">Account Settings</button>
                     </div>
-                    <div class=" flex flex-col">
-                        <span>Joined</span>
-                        <span class="text-white font-bold">{{ user.date_joined}}</span>
-                    </div>
-                    <div class=" flex flex-col">
-                        <span>Last Visited</span>
-                        <span class="text-white font-bold">{{ user.last_login }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-6 mb-6" id="view_profile"                                                                                                    >
-            </div>
-
-            <div class="flex rounded container mx-auto w-full bg-[#e8e8e8] space-x-4 mt-6">
-                <div class="w-1/4 h-72 bg-white rounded shadow-xl container max-sm:hidden ">
-                    <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Followers</h5></div>
-                    <div><span>{{ profile.followers }}</span></div>
-                </div>
-
-                <div class="flex flex-col container mx-auto space-y-4 bg-[#e8e8e8] justify-between">
-                    <div class="bg-white h-[180px] rounded shadow-xl">
-                        <div class="flex items-center justify-center h-12 bg-red-600 w-full rounded-t font-bold"><h5>Achievements</h5></div>
-                    </div>
-
-                    <div class="bg-white h-[180px] rounded shadow-xl">
-                        <div class="flex flex-row space-x-2 mb-2">
-                            <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Activity</h5></div>
-                            <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Content</h5></div>
+                    <div class="flex justify-end mr-10 text-4xl font-bold text-slate-400"><span>{{ user.username }}</span></div>
+                    <div class="shadow-lg bg-red-600 hover:bg-red-700 rounded-t h-16 flex items-center space-x-8 px-2 pl-8 rounded-b font-bold">
+                        <div class=" flex flex-col items-center justify-center">
+                            <span>Posts</span>
+                            <span class="font-bold text-sm text-slate-900">0</span>
+                        </div>
+                        <div class=" flex flex-col">
+                            <span>Joined</span>
+                            <span class="font-bold text-sm text-slate-900">{{ user.date_joined}}</span>
+                        </div>
+                        <div class=" flex flex-col">
+                            <span>Last Visited</span>
+                            <span class="font-bold text-sm text-slate-900">{{ user.last_login }}</span>
                         </div>
                     </div>
                 </div>
-                
+
+                <div class="mt-6 mb-6" id="view_profile"                                                                                                    >
+                </div>
+
+                <div class="flex rounded container mx-auto w-full bg-[#e8e8e8] space-x-4 mt-6">
+                    <div class="w-1/4 h-28 bg-white rounded shadow-xl container max-sm:hidden">
+                        <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Followers</h5></div>
+                        <div class="flex items-center justify-center bg-white h-full text-slate-600"><span>{{ profile.followers }}</span></div>
+                    </div>
+                    <div class="flex flex-col container mx-auto space-y-4 bg-[#e8e8e8] justify-between">
+                        <div class="bg-white h-[180px] rounded shadow-xl pb-4">
+                            <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Achievements</h5></div>
+                            <div class="h-full flex">
+                                <div class="w-1/2 flex flex-col gap-2 items-center justify-center">
+                                    <div><img src="/static/icons/accomplishment.png" alt="Accomplishment Badge Icon"></div>
+                                    <span class="text-red-500 mb-5 font-bold">{{ profile.status }}</span>
+                                </div>
+                                <div class="w-1/2 flex flex-col items-center justify-center text-center text-slate-500 font-bold">
+                                    <div class="w-3/4 bg-blue-200 hover:bg-blue-300 rounded-full">0</div>
+                                    <span class="mb-1">Reputation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white h-[180px] rounded shadow-xl">
+                            <div class="flex flex-row">
+                                <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Activity</h5></div>
+                                <div class="flex items-center justify-center h-12 bg-red-600 hover:bg-red-700 w-full rounded-t font-bold"><h5>Content</h5></div>
+                            </div>
+                            <div class="flex items-center justify-center h-full bg-white">
+                                <span class="text-slate-500">{{ profile.user.username}} has no recent activity to show yet</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
