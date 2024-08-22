@@ -1,6 +1,6 @@
 # Yodel forum
 
-![screenshot](https://github.com/user-attachments/assets/6eef2634-2a65-4e62-878b-fc7b0bc12ad5)
+![screenshot](https://github.com/user-attachments/assets/91e32f01-1a8d-4edc-b18d-701452fc9f44)
 
 ## Getting Started:
 
