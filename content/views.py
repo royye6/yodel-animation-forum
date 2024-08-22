@@ -56,7 +56,7 @@ def topic_detail(request, slug):
     profile = request.user.profile if request.user.is_authenticated else None
     topic = get_object_or_404(Topic, slug=slug)
 
-    image_extensions = ('.jpg', '.jpeg', '.png', '.gif')
+    image_extensions = ('webp','.jpg', '.jpeg', '.png', '.gif')
     video_extensions = ('.mp4', '.webm')
     is_image = topic.file.name.endswith(image_extensions)
     is_video = topic.file.name.endswith(video_extensions)

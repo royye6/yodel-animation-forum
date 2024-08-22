@@ -9,7 +9,7 @@
                 <div class="leftpanel w-3/4 max-md:w-full bg-[#e8e8e8]">
                     <div class="bg-white rounded shadow-lg">
                         <div class="p-3">
-                            <h1 class="text-3xl max-md:text-2xl font-bold mb-2">{{ topic.title }}</h1>
+                            <h1 class="text-2xl max-md:text-2xl font-bold mb-2">{{ topic.title }}</h1>
                             <hr class="bg-gray-300 mt-4">
                         </div>
                         <div class="p-3">
@@ -109,23 +109,23 @@
                      </div>
                     {% endfor %}
                     <div class="mt-6 h-content bg-white shadow-lg rounded flex p-3 space-x-3 w-full" id="reply_to_post">
-                    {% if signed_in %}
-                        <div class="flex space-x-4 mt-6 mb-6 w-full">
-                            <form method="POST" enctype="multipart/form-data" class="w-full">
-                                {% csrf_token %}
-                                {{ reply_form|crispy }}
-                                <div class="mt-4 flex justify-between">
-                                    <span class="text-slate-400 font-bold text-sm">Max total size: 10MB</span>
-                                    <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded">Reply</button>             
-                                </div>
-                            </form> 
-                        </div>
-                    {% else %}
-                        <div class="p-1 flex gap-5 items-center justify-center bg-red-100 w-full">
-                            <p>It seems you are interested in this topic. Sign in to reply.</p>
-                            <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-2 py-2.5 me-1 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'login' %}">Sign in</a></button>
-                        </div>
-                    {% endif %}
+                        {% if signed_in %}
+                            <div class="flex space-x-4 mt-6 mb-6 w-full">
+                                <form method="POST" enctype="multipart/form-data" class="w-full">
+                                    {% csrf_token %}
+                                    {{ reply_form|crispy }}
+                                    <div class="mt-4 flex justify-between">
+                                        <span class="text-slate-400 font-bold text-sm">Max total size: 20MB</span>
+                                        <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 me-1 mb-2 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded">Reply</button>             
+                                    </div>
+                                </form> 
+                            </div>
+                        {% else %}
+                            <div class="p-1 flex gap-5 items-center justify-center bg-red-100 w-full">
+                                <p>It seems you are interested in this topic. Sign in to reply.</p>
+                                <button type="submit" class="shadow-xl focus:outline-none text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium text-sm px-2 py-2.5 me-1 dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800 rounded"><a href="{% url 'login' %}">Sign in</a></button>
+                            </div>
+                        {% endif %}
                     </div>               
                 </div>
                 <div class="rightpanel space-y-3 rounded max-md:w-full w-1/4">

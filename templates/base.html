@@ -78,7 +78,7 @@
         </div>
     </section>
     {% block content %}{% endblock %}
-    <!--  alternative is sweetify  -->
+    <!--  alternative is sweetify, ignore linter warnings -->
     <script>
         {% for message in messages %}
             swal.fire({
@@ -96,7 +96,7 @@
                 <a href="https://x.com/"><img src="/static/icons/x.png" alt="X Icon" class="transition-transform hover:scale-90"></a>
                 <a href="https://web.facebook.com/"><img src="/static/icons/facebook.png" alt="Facebook Icon" class="transition-transform hover:scale-90"></a>
             </div>
-            <ul class="flex space-x-4 font-bold text-slate-400">
+            <ul class="flex space-x-4 font-bold text-slate-400 max-sm:text-sm">
                 <a href="#"><li class="hover:text-red-500">Contact Us</li></a>
                 <a href="#"><li class="hover:text-red-500">Privacy Policy</li></a>
                 <a href="#"><li class="hover:text-red-500">About Us</li></a>

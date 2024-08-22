@@ -21,9 +21,6 @@ def home(request):
     regular_topics = Topic.objects.filter(is_pinned=False).order_by('-created_at')
     all_topics = list(pinned_topics) + list(regular_topics)
   
-    for topic in all_topics:
-        topic.latest_reply = topic.replies.order_by('-created_at').first()
-
 
     paginator = Paginator(all_topics, settings.PAGE_SIZE)
     topics_pages = paginator.page(1)
